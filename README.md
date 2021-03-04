@@ -1,2 +1,2 @@
 # GitVersion Playground
-## Feature 0.2.0
+## Feature 0.3.0
