@@ -9,8 +9,15 @@ jobs:
   test:
     runs-on: ubuntu-20.04
     steps:
+      - uses: actions/checkout@v2
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - uses: azure/cli@v1
+        id: az
+        with:
+          inlineScript: |
+            id=$(az deployment group create -g mdmsua -f template.json -p name=${GITHUB_REF:11} --no-prompt | jq -r '.properties.outputs.prefix.value')
+            echo "::set-output name=id::$id"
       - run: |
-          echo "Ref: ${{ github.ref }}"
-          echo "Base ref: ${{ github.base_ref }}"
-          echo "Head ref: ${{ github.head_ref }}"
-          echo "Graph: ${{ github }}"
+          echo "ID: ${{ steps.az.outputs.id }}"
