@@ -13,6 +13,8 @@ jobs:
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - run: |
+          az account show | jq -r '.id'
       - uses: azure/cli@v1
         id: az
         with:
