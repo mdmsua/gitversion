@@ -21,3 +21,4 @@ jobs:
             echo "::set-output name=id::$id"
       - run: |
           echo "ID: ${{ steps.az.outputs.id }}"
+          openssl rand -hex 8
