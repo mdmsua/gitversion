@@ -13,14 +13,23 @@ jobs:
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - run: |
-          echo "${{ secrets.AZURE_CREDENTIALS }}" | jq -r '.clientId'
-      - uses: azure/cli@v1
-        id: az
+      - uses: azure/get-keyvault-secrets@v1
         with:
-          inlineScript: |
-            id=$(az deployment group create -g mdmsua -f template.json -p name=${GITHUB_REF:11} --no-prompt | jq -r '.properties.outputs.prefix.value')
-            echo "::set-output name=id::$id"
+          keyvault: mdmsua
+          secrets: github
+        id: kv
       - run: |
-          echo "ID: ${{ steps.az.outputs.id }}"
-          openssl rand -hex 8
+          echo "secret is present"
+        if: ${{ steps.kv.output.github }}
+      - run: |
+          echo "secret is absent"
+        if: ${{ !steps.kv.output.github }}
+      # - uses: azure/cli@v1
+      #   id: az
+      #   with:
+      #     inlineScript: |
+      #       id=$(az deployment group create -g mdmsua -f template.json -p name=${GITHUB_REF:11} --no-prompt | jq -r '.properties.outputs.prefix.value')
+      #       echo "::set-output name=id::$id"
+      # - run: |
+      #     echo "ID: ${{ steps.az.outputs.id }}"
+      #     openssl rand -hex 8
