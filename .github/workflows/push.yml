@@ -20,10 +20,10 @@ jobs:
         id: kv
       - run: |
           echo "secret is present"
-        if: ${{ steps.kv.output.github }}
+        if: ${{ steps.kv.outputs.github }}
       - run: |
           echo "secret is absent"
-        if: ${{ !steps.kv.output.github }}
+        if: ${{ !steps.kv.outputs.github }}
       # - uses: azure/cli@v1
       #   id: az
       #   with:
