@@ -16,14 +16,14 @@ jobs:
       - uses: azure/get-keyvault-secrets@v1
         with:
           keyvault: mdmsua
-          secrets: github
+          secrets: gitlab
         id: kv
       - run: |
           echo "secret is present"
-        if: ${{ steps.kv.outputs.github }}
+        if: ${{ steps.kv.outputs.gitlab }}
       - run: |
           echo "secret is absent"
-        if: ${{ !steps.kv.outputs.github }}
+        if: ${{ !steps.kv.outputs.gitlab }}
       # - uses: azure/cli@v1
       #   id: az
       #   with:
