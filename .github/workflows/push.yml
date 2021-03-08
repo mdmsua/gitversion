@@ -16,14 +16,14 @@ jobs:
       - uses: azure/get-keyvault-secrets@v1
         with:
           keyvault: mdmsua
-          secrets: gitlab
+          secrets: github
         id: kv
         continue-on-error: true
       - id: pwd
         env:
           secret: $(openssl rand -hex 8)
         run: |
-          echo "::set-output name=secret::${{ steps.kv.outputs.gitlab || env.secret }}"
+          echo "::set-output name=secret::${{ steps.kv.outputs.github || env.secret }}"
       - run: |
           echo "${{ steps.pwd.outputs.secret }}"
       # - uses: azure/cli@v1
