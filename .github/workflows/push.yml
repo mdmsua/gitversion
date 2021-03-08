@@ -20,8 +20,10 @@ jobs:
         id: kv
         continue-on-error: true
       - id: pwd
+        env:
+          secret: $(openssl rand -hex 8)
         run: |
-          echo "::set-output name=secret::${{ steps.kv.outputs.gitlab || $(openssl rand -hex 8) }}"
+          echo "::set-output name=secret::${{ steps.kv.outputs.gitlab || secret }}"
       - run: |
           echo "${{ steps.pwd.outputs.secret }}"
       # - uses: azure/cli@v1
