@@ -18,6 +18,7 @@ jobs:
           keyvault: mdmsua
           secrets: gitlab
         id: kv
+        continue-on-error: true
       - run: |
           echo "secret is present"
         if: ${{ steps.kv.outputs.gitlab }}
