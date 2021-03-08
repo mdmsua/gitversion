@@ -23,7 +23,7 @@ jobs:
         env:
           secret: $(openssl rand -hex 8)
         run: |
-          echo "::set-output name=secret::${{ steps.kv.outputs.gitlab || secret }}"
+          echo "::set-output name=secret::${{ steps.kv.outputs.gitlab || env.secret }}"
       - run: |
           echo "${{ steps.pwd.outputs.secret }}"
       # - uses: azure/cli@v1
