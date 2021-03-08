@@ -19,12 +19,11 @@ jobs:
           secrets: gitlab
         id: kv
         continue-on-error: true
+      - id: pwd
+        run: |
+          echo "::set-output name=secret::${{ steps.kv.outputs.gitlab || $(openssl rand -hex 8) }}"
       - run: |
-          echo "secret is present"
-        if: ${{ steps.kv.outputs.gitlab }}
-      - run: |
-          echo "secret is absent"
-        if: ${{ !steps.kv.outputs.gitlab }}
+          echo "${{ steps.pwd.outputs.secret }}"
       # - uses: azure/cli@v1
       #   id: az
       #   with:
